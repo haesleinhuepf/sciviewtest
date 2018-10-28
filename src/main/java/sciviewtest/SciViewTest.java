@@ -2,12 +2,13 @@ package sciviewtest;
 
 import clearcl.imagej.ClearCLIJ;
 import cleargl.GLVector;
-import graphics.scenery.Mesh;
 import graphics.scenery.Node;
 import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
+import net.imagej.mesh.Mesh;
 import net.imagej.ops.OpService;
+import net.imagej.ops.Ops;
 import net.imagej.ops.geom.geom3d.mesh.BitTypeVertexInterpolator;
 import net.imagej.patcher.LegacyInjector;
 import net.imglib2.RandomAccessibleInterval;
@@ -31,6 +32,7 @@ public class SciViewTest {
 
         ImageJ ij = new ImageJ();
 
+        System.setProperty("scenery.Renderer", "OpenGLRenderer");
         System.setProperty( "scijava.log.level:sc.iview", "debug" );
         Context context = ij.context(); //new Context( ImageJService.class, SciJavaService.class, SCIFIOService.class, ThreadService.class);
 
@@ -83,7 +85,7 @@ public class SciViewTest {
         Img<BitType> bitImg = ( Img<BitType> ) ops.threshold().maxEntropy( cubeImg );
         ij.ui().show(bitImg);
 
-        Mesh m = (Mesh) ops.geom().marchingCubes( bitImg, isoLevel, new BitTypeVertexInterpolator() );
+        Mesh m = ops.geom().marchingCubes( bitImg, isoLevel, new BitTypeVertexInterpolator() );
 
         sciView.addMesh( m ).setName( "Volume Render Demo Isosurface" );
 
