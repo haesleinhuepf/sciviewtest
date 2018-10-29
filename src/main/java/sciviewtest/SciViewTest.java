@@ -3,6 +3,7 @@ package sciviewtest;
 import clearcl.imagej.ClearCLIJ;
 import cleargl.GLVector;
 import graphics.scenery.Node;
+import graphics.scenery.volumes.Volume;
 import ij.IJ;
 import ij.ImagePlus;
 import net.imagej.ImageJ;
@@ -32,7 +33,8 @@ public class SciViewTest {
 
         ImageJ ij = new ImageJ();
 
-        System.setProperty("scenery.Renderer", "OpenGLRenderer");
+        //System.setProperty("scenery.Renderer", "OpenGLRenderer");
+        //System.setProperty("scenery.LogLevel", "debug");
         System.setProperty( "scijava.log.level:sc.iview", "debug" );
         Context context = ij.context(); //new Context( ImageJService.class, SciJavaService.class, SCIFIOService.class, ThreadService.class);
 
@@ -52,10 +54,8 @@ public class SciViewTest {
         SciView sciView = sciViewService.getOrCreateActiveSciView();
 
         sciView.getCamera().setPosition( new GLVector( 0.0f, 0.0f, 5.0f ) );
-        sciView.getCamera().setTargeted( true );
         sciView.getCamera().setTarget( new GLVector( 0, 0, 0 ) );
-        sciView.getCamera().setDirty( true );
-        sciView.getCamera().setNeedsUpdate( true );
+
 
         // that's the image I would l
         ImagePlus imp = IJ.openImage("src/main/resources/simdata.tif");
@@ -71,8 +71,11 @@ public class SciViewTest {
             //sciView.removeMesh(sciView.updateVolume());
         }
 
-        Node v = sciView.addVolume( Views.iterable(rai), imp.getTitle(), new float[] { 1, 1, 1 } );
+        Volume v = (Volume)sciView.addVolume( Views.iterable(rai), imp.getTitle(), new float[] { 1, 1, 1 } );
         v.setName( "Volume Render Demo" );
+        v.getTransferFunction();
+        v.setPosition(new GLVector(0.0f, 0.0f, 0.0f));
+        v.setRenderScale(0.01f);
 
         OpService ops = ij.op();
 

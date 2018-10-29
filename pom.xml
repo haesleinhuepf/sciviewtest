@@ -70,6 +70,7 @@
 	<properties>
 		<package-name>net.clearcontrol</package-name>
 		<imagej.app.directory>C:/Programs/XWingFiji.app/</imagej.app.directory>
+		<lwjgl.version>3.2.0</lwjgl.version>
 	</properties>
 
 	<dependencies>
